@@ -54,7 +54,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PipelineProcessor
+./ComputePipeline
 ```
 
 ---
