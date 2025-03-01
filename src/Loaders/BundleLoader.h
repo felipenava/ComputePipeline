@@ -15,6 +15,7 @@
  * - Detects the file type based on the bundle's file extension.
  * - Identifies the protocol as "bundle".
  * - Initializes the ActionResult with the content and metadata for bundles.
+ * - Simulates data loading for test purposes.
  */
 class BundleLoader : public ILoader {
 public:
@@ -49,6 +50,9 @@ public:
         // Add metadata specific to bundles.
         item.metadata["Loaded From"] = "Bundle";
         item.metadata["Source Path"] = source;
+
+        // Simulate loading bundle data.
+        item.data = std::vector<char>(300, 'Z'); // Placeholder 300 bytes of 'Z'.
 
         // Return the initialized ActionResult.
         return item;

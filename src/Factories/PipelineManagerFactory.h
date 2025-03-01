@@ -11,46 +11,44 @@
 /**
  * PipelineManagerFactory Class
  * ----------------------------
- * This factory class is responsible for creating and configuring the PipelineManager.
- * It centralizes the instantiation of all processing systems used in the pipeline.
+ * Factory responsible for creating and configuring a PipelineManager instance.
+ * Centralizes the instantiation and registration of processing systems used in the pipeline.
  *
  * Responsibilities:
- * - Creates and configures the PipelineManager with all necessary processing systems.
- * - Decides the order of systems in the pipeline.
+ * - Creates an instance of PipelineManager.
+ * - Registers processing systems dynamically using the RegisterProcessor method.
+ * - Ensures modularity and extensibility by allowing easy addition of new processors.
+ *
+ * Methods:
+ * - CreatePipelineManager: Instantiates and configures a PipelineManager with predefined processors.
  */
 class PipelineManagerFactory {
 public:
     /**
      * CreatePipelineManager Method (Static)
      * -------------------------------------
-     * Static method to create a fully configured PipelineManager.
-     * This method centralizes the order and inclusion of processing systems.
+     * Creates and configures a PipelineManager instance with predefined processing systems.
+     * This method ensures that the pipeline is ready for processing different data types.
      *
      * Workflow:
-     * - Creates unique pointers for each processing system:
-     *     - DecompressSystem   -> Handles compressed files (.zip).
-     *     - DecodeImageSystem  -> Handles image decoding (.jpg).
-     *     - ParseJsonSystem    -> Handles JSON parsing (.json).
-     *     - UnknownFileSystem  -> Handles unknown or unsupported file types.
-     * - Returns a unique pointer to the configured PipelineManager.
+     * - Instantiates a PipelineManager.
+     * - Registers various processing systems dynamically:
+     *     - DecompressSystem -> Handles compressed files (.zip).
+     *     - DecodeImageSystem -> Handles image decoding (.jpg).
+     *     - ParseJsonSystem -> Handles JSON parsing (.json).
+     *     - UnknownFileSystem -> Handles unknown or unsupported file types.
+     * - Returns a unique pointer to the fully configured PipelineManager.
      *
      * Returns:
      * - std::unique_ptr<PipelineManager>: A fully configured PipelineManager ready for processing.
      */
     static std::unique_ptr<PipelineManager> CreatePipelineManager() {
-        // Creates the processing systems and determines their order in the pipeline.
-        auto decompress = std::make_unique<DecompressSystem>();
-        auto decodeImage = std::make_unique<DecodeImageSystem>();
-        auto parseJson = std::make_unique<ParseJsonSystem>();
-        auto unknownFile = std::make_unique<UnknownFileSystem>();
-
-        // Dependency Injection in PipelineManager.
-        return std::make_unique<PipelineManager>(
-            std::move(decompress),
-            std::move(decodeImage),
-            std::move(parseJson),
-            std::move(unknownFile)
-        );
+        auto pipeline = std::make_unique<PipelineManager>();
+        pipeline->RegisterProcessor(DataType::COMPRESSED, std::make_unique<DecompressSystem>());
+        pipeline->RegisterProcessor(DataType::IMAGE, std::make_unique<DecodeImageSystem>());
+        pipeline->RegisterProcessor(DataType::JSON, std::make_unique<ParseJsonSystem>());
+        pipeline->RegisterProcessor(DataType::UNKNOWN, std::make_unique<UnknownFileSystem>());
+        return pipeline;
     }
 };
 

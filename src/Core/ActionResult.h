@@ -34,6 +34,7 @@ enum class DataType {
  * - Holds the source, type, and content of the item being processed.
  * - Stores metadata as key/value pairs for traceability and auditing.
  * - Tracks the processing state to determine when the pipeline should stop.
+ * - Simulates a data buffer to represent file contents.
  */
 class ActionResult {
 public:
@@ -46,6 +47,7 @@ public:
      * - content (std::string): A description of the content or the processed result.
      * - isProcessed (bool): A flag indicating whether the item has been fully processed.
      * - metadata (std::unordered_map<std::string, std::string>): Key-value pairs for processing details.
+     * - data (std::vector<char>): Simulated file data buffer (acts as a placeholder for actual content).
      */
     DataType type;    // Type of the data (IMAGE, JSON, COMPRESSED, UNKNOWN).
     std::string source;   // Original source of the item (file path, URL, etc.).
@@ -53,6 +55,7 @@ public:
     std::string content;  // Description of the content or processed result.
     bool isProcessed;     // Flag to indicate if the item has been fully processed.
     std::unordered_map<std::string, std::string> metadata;  // Key-value pairs for traceability.
+    std::vector<char> data; // Simulated file data buffer (placeholder for actual content).
 
     /**
      * Constructor

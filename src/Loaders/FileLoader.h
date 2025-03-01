@@ -15,6 +15,7 @@
  * - Detects the file type based on the file extension.
  * - Identifies the protocol as "file".
  * - Initializes the ActionResult with the content and metadata for file sources.
+ * - Simulates data loading for test purposes.
  */
 class FileLoader : public ILoader {
 public:
@@ -49,6 +50,9 @@ public:
         // Add metadata specific to local files.
         item.metadata["Loaded From"] = "File System";
         item.metadata["Source Path"] = source;
+
+        // Simulate loading file data.
+        item.data = std::vector<char>(100, 'X'); // Placeholder 100 bytes of 'X'.
 
         // Return the initialized ActionResult.
         return item;

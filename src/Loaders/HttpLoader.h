@@ -15,6 +15,7 @@
  * - Detects the file type based on the URL.
  * - Identifies the protocol (http or https).
  * - Initializes the ActionResult with the content and metadata for URLs.
+ * - Simulates data loading for test purposes.
  */
 class HttpLoader : public ILoader {
 public:
@@ -49,6 +50,9 @@ public:
         // Add metadata specific to URLs.
         item.metadata["Loaded From"] = "URL";
         item.metadata["Source Path"] = source;
+
+        // Simulate loading URL data.
+        item.data = std::vector<char>(200, 'Y'); // Placeholder 200 bytes of 'Y'.
 
         // Return the initialized ActionResult.
         return item;
